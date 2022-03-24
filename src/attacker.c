@@ -31,7 +31,7 @@ direction_t execute_attacker_strategy(
   static position_t previous_position = INVALID_POSITION;
   static int direction_count = 0;
   
-  direction_t direction_with_weigh_attacker[12] = {
+  direction_t directions_attacker[8] = {
     DIR_DOWN_RIGHT,                        
     DIR_UP_RIGHT,                    
     DIR_RIGHT,                           
@@ -49,9 +49,13 @@ direction_t execute_attacker_strategy(
     direction_index = abs(random_number)%3; 
     direction_count = 0;
   }
+  
   previous_position = attacker_position;
-            
-  return direction_with_weigh_attacker[direction_index]; 
+  
+  if (direction_count >= 8) {
+    direction_count = 0;
+  }         
+  return directions_attacker[direction_index]; 
 }
 
 /*----------------------------------------------------------------------------*/
