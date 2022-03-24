@@ -24,33 +24,34 @@ direction_t execute_attacker_strategy(
   UNUSED(defender_spy);
   
   srand(time(NULL));
+    
+  int random_number = rand() * (attacker_position.i + attacker_position.j);
+  int direction_index;
   
-  int ran = abs(rand() * (attacker_position.i + attacker_position.j)) ;
-  int dir;
+  static position_t previous_position = INVALID_POSITION;
+  static int direction_count = 0;
   
-  if (attacker_position.j == 1){
-    dir = ran%9;
-  } 
-  else{
-    dir = ran%12;
-  }
-
   direction_t direction_with_weigh_attacker[12] = {
-    DIR_DOWN_RIGHT, //weigh 2                       
-    DIR_UP_RIGHT,   //weigh 2                 
-    DIR_RIGHT,      //weigh 3                     
+    DIR_DOWN_RIGHT,                        
+    DIR_UP_RIGHT,                    
+    DIR_RIGHT,                           
     DIR_UP,
     DIR_DOWN,       
     DIR_DOWN_LEFT,  
     DIR_LEFT,       
-    DIR_UP_LEFT,
-
-    DIR_DOWN_RIGHT,
-    DIR_UP_RIGHT,
-    DIR_RIGHT,
-    DIR_RIGHT};
-               
-  return direction_with_weigh_attacker[dir]; 
+    DIR_UP_LEFT,};
+  
+  if(equal_positions(previous_position, attacker_position)){
+    direction_index = direction_count;
+    direction_count ++;
+  }
+  else{    
+    direction_index = abs(random_number)%3; 
+    direction_count = 0;
+  }
+  previous_position = attacker_position;
+            
+  return direction_with_weigh_attacker[direction_index]; 
 }
 
 /*----------------------------------------------------------------------------*/
